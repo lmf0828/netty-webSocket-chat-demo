@@ -17,6 +17,15 @@
 
 #### 后端
 
+netty依赖加入
+
+```pom
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+        </dependency>
+```
+
 在你新建的boot项目**启动目录**下将给出的后端目录粘贴即可，并在**主启动类**加上以下代码
 
 ```java
