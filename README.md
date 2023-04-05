@@ -1,7 +1,11 @@
 # Netty-WebSocket-chat-demo
 
+目录：
+
+[TOC]
+
 #### 介绍
-前端vue jchat组件 + 后端springboot 实现的netty+WebSocket在线聊天demo
+前端vue jchat组件 + 后端springboot 实现的netty+WebSocket在线聊天 简单demo
 
 #### 使用说明
 
@@ -24,3 +28,29 @@
 ```
 
 只做了部分功能，毕竟是demo。
+
+#### 演示
+
+加入聊天室   这里会显示自己，具体是后端获取了在线人员，大家可以作改动
+
+![image-20230405123651847](README.assets/image-20230405123651847.png)
+
+指定一个人发送消息 （  其实这里是可以给自己发的。。。也可以改动）
+
+![image-20230405123752464](README.assets/image-20230405123752464.png)
+
+接收方
+
+![image-20230405124047603](README.assets/image-20230405124047603.png)
+
+![image-20230405124113958](README.assets/image-20230405124113958.png)
+
+可以进行回复
+
+![image-20230405124229709](README.assets/image-20230405124229709.png)
+
+
+
+
+
+## 逻辑BUG肯定是有的，可以自己完善一下，这里只是简单的demo

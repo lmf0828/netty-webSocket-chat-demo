@@ -5,7 +5,6 @@
       <span style="font-size: 30px ">请加入聊天室</span>
       <el-input v-model="msg" placeholder="请输入你的昵称" style="width: 200px"></el-input>
       <el-button type="primary" @click="join">加入</el-button>
-
     </div>
     <JwChat-index :taleList="list"
                   @enter="bindEnter"
@@ -72,7 +71,7 @@ export default {
         alert("您的浏览器不支持socket")
       } else {
         // 实例化socket
-        this.socket = new WebSocket("ws://localhost:8082/msg") //你的后端netty服务连接地址
+        this.socket = new WebSocket("ws://localhost:8082/msg")
         // 监听socket连接
         this.socket.onopen = this.open
         // 监听socket错误信息
@@ -93,85 +92,85 @@ export default {
 
       if (data.name === "系统消息") {
 
-          this.$notify({
-            title: data.name,
-            message: data.msg,
-            type: 'success'
-          });
+        this.$notify({
+          title: data.name,
+          message: data.msg,
+          type: 'success'
+        });
 
       } else if (data.name === "private") {
-          console.log(data.from)
+        console.log(data.from)
 
-          const target =
-            {
-              "text": {"text": data.msg},
-              "mine": false,
-              "name": data.from,
-              "img": "https://codegi.gitee.io/jwchatdoc/demo/image/three.jpeg"
-            }
+        const target =
+          {
+            "text": {"text": data.msg},
+            "mine": false,
+            "name": data.from,
+            "img": "https://codegi.gitee.io/jwchatdoc/demo/image/three.jpeg"
+          }
 
 
         //  this.list.push(target);
-          var list = this.winBarConfig.list;
-          var tmpUser={}
-          for (let i = 0; i < list.length; i++) {
-            if (list[i].name === data.from) {
-              if (this.winBarConfig.active!==list[i].id){
-                list[i].readNum++
-              }
-              tmpUser=list[i]
-
+        var list = this.winBarConfig.list;
+        var tmpUser={}
+        for (let i = 0; i < list.length; i++) {
+          if (list[i].name === data.from) {
+            if (this.winBarConfig.active!==list[i].id){
+              list[i].readNum++
             }
-          }
-
-          //console.log(tmpUser)
-
-          var item = sessionStorage.getItem(data.from);
-
-          if (item != null) {
-
-            var parse = JSON.parse(item);
-            if (tmpUser.id===this.winBarConfig.active){
-              this.list.push(target)
-              sessionStorage.setItem(data.from, JSON.stringify(this.list))
-            }else{
-              parse.push(target)
-              sessionStorage.setItem(data.from, JSON.stringify(parse))
-            }
-          }
-          else {
-            var tmp = []
-            if (tmpUser.id===this.winBarConfig.active){
-              this.list.push(target)
-              sessionStorage.setItem(data.from, JSON.stringify(this.list))
-            }else{
-              tmp.push(target)
-              sessionStorage.setItem(data.from, JSON.stringify(tmp))
-            }
+            tmpUser=list[i]
 
           }
+        }
+
+        //console.log(tmpUser)
+
+        var item = localStorage.getItem(data.from);
+
+        if (item != null) {
+
+          var parse = JSON.parse(item);
+          if (tmpUser.id===this.winBarConfig.active){
+            this.list.push(target)
+            localStorage.setItem(data.from, JSON.stringify(this.list))
+          }else{
+            parse.push(target)
+            localStorage.setItem(data.from, JSON.stringify(parse))
+          }
+        }
+        else {
+          var tmp = []
+          if (tmpUser.id===this.winBarConfig.active){
+            this.list.push(target)
+            localStorage.setItem(data.from, JSON.stringify(this.list))
+          }else{
+            tmp.push(target)
+            localStorage.setItem(data.from, JSON.stringify(tmp))
+          }
+
+        }
 
       } else {
 
-          this.$notify({
-            title: data.name,
-            message: "加入成功",
-            type: 'success'
-          });
-          this.winBarConfig.list = []
-          var users = JSON.parse(data.msg);
+        this.$notify({
+          title: data.name,
+          message: "加入成功",
+          type: 'success'
+        });
+        this.winBarConfig.list = []
+        var users = JSON.parse(data.msg);
 
 
-          for (let i = 0; i < users.length; i++) {
-            let obj = {
-              readNum: 0,
-              id: i,
-              name: users[i],
-              img: 'https://ts3.cn.mm.bing.net/th?id=OIP-C.maao8hq8Cf4UDcIK_HMMNgAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2',
-            }
-
-            this.winBarConfig.list.push(obj);
+        for (let i = 0; i < users.length; i++) {
+          let obj = {
+            readNum: 0,
+            id: i,
+            name: users[i],
+            img: 'https://ts3.cn.mm.bing.net/th?id=OIP-C.maao8hq8Cf4UDcIK_HMMNgAAAA&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2',
           }
+
+          this.winBarConfig.list.push(obj);
+        }
       }
     },
 
@@ -216,10 +215,10 @@ export default {
 
       data.readNum = 0;
 
-       var item = sessionStorage.getItem(data.name);    //查询聊天记录
-       if (item!=null){
-         this.list = JSON.parse(item)
-       }
+      var item = localStorage.getItem(data.name);    //查询聊天记录
+      if (item!=null){
+        this.list = JSON.parse(item)
+      }
 
 
       // console.log(data);
@@ -267,7 +266,7 @@ export default {
 
       this.list.push(msgObj) //将消息添加至聊天框中
 
-      sessionStorage.setItem(this.config.name, JSON.stringify(this.list))  //保存与对方的聊天记录
+      localStorage.setItem(this.config.name, JSON.stringify(this.list))  //保存与对方的聊天记录
 
 
 
@@ -283,11 +282,14 @@ export default {
 
     this.init()
 
+
+
+
     //const img = 'https://www.baidu.com/img/flexible/logo/pc/result.png'
     //   const list = [
     //     {
     //       "date": "2020/04/25 21:19:07",
-    //       "text": { "text": sessionStorage.getItem("list") },
+    //       "text": { "text": localStorage.getItem("list") },
     //       "mine": true,
     //       "name": "留恋人间不羡仙",
     //       "img": "https://codegi.gitee.io/jwchatdoc/demo/image/three.jpeg"
